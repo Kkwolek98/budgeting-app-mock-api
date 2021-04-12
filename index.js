@@ -32,4 +32,4 @@ app.get('/categories/user/:id', async (req,res) => {
     res.send(categories.find(({user}) => user == req.params.id).categories);
 })
 
-app.listen(3000 || process.env.PORT, () => console.log('Server running'))
+app.listen(process.env.PORT || 3000, () => console.log('Server running'))
