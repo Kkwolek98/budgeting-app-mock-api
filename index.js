@@ -7,6 +7,7 @@ app.use(cors());
 const users = JSON.parse(fs.readFileSync('users.json'));
 const bankAccounts = JSON.parse(fs.readFileSync('bankAccounts.json'));
 const categories = JSON.parse(fs.readFileSync('categories.json'));
+const months = JSON.parse(fs.readFileSync('months.json'));
 
 app.get('/ping', async(req,res) => {
     res.send('pong')
@@ -30,6 +31,10 @@ app.get('/bank-accounts/owner/:id', async (req, res) => {
 
 app.get('/categories/user/:id', async (req,res) => {
     res.send(categories.find(({user}) => user == req.params.id).categories);
+})
+
+app.get('/months/user/:id', async (req,res) => {
+    res.send(months.find(({user}) => user == req.params.id).months)
 })
 
 app.listen(process.env.PORT || 3000, () => console.log('Server running'))
