@@ -11,6 +11,7 @@ const users = JSON.parse(fs.readFileSync('users.json'));
 const bankAccounts = JSON.parse(fs.readFileSync('bankAccounts.json'));
 const categories = JSON.parse(fs.readFileSync('categories.json'));
 const months = JSON.parse(fs.readFileSync('months.json'));
+const goals = JSON.parse(fs.readFileSync('goals.json'));
 
 app.get('/ping', async(req,res) => {
     res.send('pong')
@@ -39,12 +40,21 @@ app.get('/categories/user/:id', async (req,res) => {
 // housing, transportation, food, utilities, insurance, healthcare, investing, hobby
 app.put('/goals/:id', async (req, res) => {
     const userCategories = categories.find(({user}) => user == req.params.id).categories;
+    const userGoals = goals.find(({user}) => user == req.params.id);
     const changedCategories = req.body;
     changedCategories.forEach((el) => {
-        userCategories.find(({category}) => category == el.category).spendingLimit = el.spendingLimit;
+        if (el.category !== 'savings') {
+            userCategories.find(({category}) => category == el.category).spendingLimit = el.spendingLimit;
+        } else {
+            userGoals.savings = el.goal;
+        }
     });
 
-    res.send(userCategories);
+    res.send({categories: userCategories, savings: userGoals.savings});
+})
+
+app.get('/goals/:id', async (req, res) => {
+    res.send(goals.find(({user}) => user == req.params.id));
 })
 
 app.get('/months/user/:id', async (req,res) => {
