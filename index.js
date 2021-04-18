@@ -66,9 +66,9 @@ app.post('/newEntry/:userId', async (req, res) => {
     const userGoals = goals.find(({user}) => user == req.params.userId);
     const body = req.body;
     if (body.category === 'saving') {
-        userGoals.currentSavings += body.amount;
+        userGoals.currentSavings += parseFloat(body.amount);
     } else {
-        userCategories.find(({category}) => req.category === category).currentAmount += body.amount;
+        userCategories.find(({category}) => req.category === category).currentAmount += parseFloat(body.amount);
     }
 
     res.send(body.category === 'saving' ? userGoals : userCategories);
