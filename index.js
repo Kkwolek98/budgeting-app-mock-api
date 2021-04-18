@@ -65,13 +65,13 @@ app.post('/newEntry/:userId', async (req, res) => {
     const userCategories = categories.find(({user}) => user == req.params.userId).categories;
     const userGoals = goals.find(({user}) => user == req.params.userId);
     const body = req.body;
-    if (body.category === 'spending') {
+    if (body.category === 'saving') {
         userGoals.currentSavings += body.amount;
     } else {
         userCategories.find(({category}) => req.category === category).currentAmount += body.amount;
     }
 
-    res.send(body.category === 'spending' ? userGoals : userCategories);
+    res.send(body.category === 'saving' ? userGoals : userCategories);
 })
 
 app.listen(process.env.PORT || 3000, () => console.log('Server running'))
